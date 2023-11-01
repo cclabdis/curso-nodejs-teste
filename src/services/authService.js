@@ -40,10 +40,17 @@ class AuthService {
   }
 
   async cadastrarUsuario(data) {
+    try {
+    if(!data.senha ) throw new Error('Senha obrigatória')
+
+    if (await Usuario.emailJaExiste(data.email)) throw new Error('E-mail já cadastrado');
+    
+
+    
     data.senha = await bcryptjs.hash(data.senha, 8);
     
     const usuario = new Usuario(data);
-    try {
+    
       const resposta = await usuario.salvar(usuario);
       return { message: 'usuario criado', content: resposta };
     } catch (err) {
