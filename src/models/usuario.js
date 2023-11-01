@@ -22,7 +22,6 @@ class Usuario {
   static async pegarUsuarios() {
     return db.select('*').from('usuarios');
   }
-  
   static async emailJaExiste(email) {
     const resultado = await db.select('id').from('usuarios').where({ email });
     return resultado.length > 0;
